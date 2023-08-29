@@ -4,7 +4,7 @@ import '../renderer/store/app_store';
 import { sendDispatcher } from "./ipc/send_dispatcher";
 import {formatDate, mLogger} from "./utils/log_utils";
 import {WinService} from "./service/win_service";
-import {isDarwin, isDev, isWin32, listenWinStateEvents} from "./utils/env_utils";
+import {isDarwin, isDev, isLinux, isWin32, listenWinStateEvents} from "./utils/env_utils";
 import {createDir, createFileSync} from "./utils/io_utils";
 import {IPC_SEND_CHANNEL_NAME} from "../common/api/app";
 import {Message} from "../common/model/ipc";
@@ -80,7 +80,7 @@ function initWindows() {
 
     if (isDarwin()) {
         windowOptions.titleBarStyle = 'hidden';
-    } else if (isWin32()) {
+    } else if (isWin32() || isLinux()) {
         windowOptions.frame = false;
     }
 

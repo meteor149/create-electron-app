@@ -4,10 +4,10 @@ import {URI_WINDOWS} from "../../../common/api/app";
 import {useSelector, useStore} from "react-redux";
 import {appState, AppStore, EnvStore} from "../../store/app_store";
 import Icon from '@ant-design/icons';
-import IMIcon from '../../res/svg/IM.svg';
+import KFCIcon from '../../res/svg/KFC.svg';
 import "../../style/component/title-bar.less";
 import {sendProxy} from "../../utils/net_utils";
-import {isDarwin, isWin32} from "../../utils/common_utils";
+import {isDarwin, isLinux, isWin32} from "../../utils/common_utils";
 
 export function getTitleBarHeight() {
     if (isDarwin()) {
@@ -58,20 +58,19 @@ export function TitleBar(props: ITitleBarProps) {
     const inFullScreen = env.winState === 'full-screen'
     const isMaximized = env.winState === 'maximized'
 
-    const winControls = isWin32() && !inFullScreen ? <WindowControls /> : null
+    const winControls = (isWin32() || isLinux()) && !inFullScreen ? <WindowControls /> : null
 
     const topResizeHandle =
-        isWin32() && !isMaximized ? <div className="resize-handle top" /> : null
+        (isWin32() || isLinux()) && !isMaximized ? <div className="resize-handle top" /> : null
 
-    // And a 3px wide element on the left hand side.
     const leftResizeHandle =
-        isWin32() && !isMaximized ? <div className="resize-handle left" /> : null
+        (isWin32() || isLinux()) && !isMaximized ? <div className="resize-handle left" /> : null
 
     const titleBarClass =
         props.titleBarStyle === 'light' ? 'light-title-bar' : ''
 
     const appIcon = props.showAppIcon ? (
-        <Icon className="app-icon" component={IMIcon} />
+        <KFCIcon style={{width: "20px", height: "20px", margin: "6px"}} viewBox="0 0 300 300" />
     ) : null
 
     const onTitlebarDoubleClick = isDarwin()
